@@ -14,7 +14,7 @@ inputs:
   api_url:
     description: "Base URL of the Diagnostic Agent API."
     required: false
-    default: "https://api.diagnosticagent.dev"
+    default: "https://diagnostic-agent-api.onrender.com"
 
   max_log_lines:
     description: "Maximum number of log lines to send for analysis. Higher values are more accurate but slower."
