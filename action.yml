@@ -1,0 +1,55 @@
+name: "Pipeline Failure Diagnostic"
+description: "Analyzes CI build failures and prints a plain-English diagnosis inline in your pipeline logs before a ticket is filed."
+author: "tajae1532"
+
+branding:
+  icon: "search"
+  color: "blue"
+
+inputs:
+  api_key:
+    description: "Your Diagnostic Agent API key. Store this as a GitHub Actions secret."
+    required: true
+
+  api_url:
+    description: "Base URL of the Diagnostic Agent API."
+    required: false
+    default: "https://api.diagnosticagent.dev"
+
+  max_log_lines:
+    description: "Maximum number of log lines to send for analysis. Higher values are more accurate but slower."
+    required: false
+    default: "200"
+
+  fail_on_platform_issue:
+    description: "Exit with a non-zero code when the diagnosis is a platform_issue. Useful for alerting."
+    required: false
+    default: "false"
+
+  debug:
+    description: "Print the full API response to the logs for troubleshooting."
+    required: false
+    default: "false"
+
+outputs:
+  category:
+    description: "Classification bucket: user_error, external_dependency, or platform_issue."
+
+  confidence:
+    description: "Classifier confidence score between 0.0 and 1.0."
+
+  owner:
+    description: "Who should act: developer, external_service, or platform_team."
+
+  summary:
+    description: "Plain-English diagnosis summary."
+
+  recommended_action:
+    description: "Specific remediation suggestion when a training example was matched."
+
+  deflect_ticket:
+    description: "true when the diagnosis suggests no support ticket is needed."
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
