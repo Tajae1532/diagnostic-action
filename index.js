@@ -149,7 +149,17 @@ function collectLogContext(maxLines) {
       }
     } catch (_) {}
   }
-
+  const buildLogFile = process.env.BUILD_LOG_FILE;
+    if (buildLogFile) {
+        try {
+            const fs = require("fs");
+            if (fs.existsSync(buildLogFile)) {
+                const content = fs.readFileSync(buildLogFile, "utf8");
+                lines.push("--- BUILD LOG ---");
+                lines.push(...content.split("\n").slice(-300));
+            }
+        } catch (_) {}
+    }
   return lines.slice(0, maxLines);
 }
 
